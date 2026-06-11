@@ -1,7 +1,8 @@
-import type { PlayerAction } from '../utils/types'
+import type { PlayerAction, Player } from '../utils/types'
 
 interface Props {
   actions: PlayerAction[]
+  players: Player[]
 }
 
 const actionLabels: Record<string, string> = {
@@ -12,7 +13,7 @@ const actionLabels: Record<string, string> = {
   'all-in': 'went all-in',
 }
 
-export function GameLog({ actions }: Props) {
+export function GameLog({ actions, players }: Props) {
   if (actions.length === 0) return null
 
   return (
@@ -26,16 +27,19 @@ export function GameLog({ actions }: Props) {
         fontSize: 13,
       }}
     >
-      {actions.map((a, i) => (
-        <div key={i} style={{ marginBottom: 3, color: a.player === 'hero' ? '#2c3e50' : '#7f8c8d' }}>
-          <strong>{a.player === 'hero' ? 'You' : 'Opponent'}</strong>{' '}
-          {actionLabels[a.action]}
-          {a.amount > 0 ? ` ${a.amount}` : ''}
-          <span style={{ fontSize: 11, color: '#aaa', marginLeft: 6 }}>
-            [{a.street}]
-          </span>
-        </div>
-      ))}
+      {actions.map((a, i) => {
+        const name = players[a.playerIdx]?.name ?? `Player ${a.playerIdx}`
+        return (
+          <div key={i} style={{ marginBottom: 3, color: a.playerIdx === 0 ? '#2c3e50' : '#7f8c8d' }}>
+            <strong>{name}</strong>{' '}
+            {actionLabels[a.action]}
+            {a.amount > 0 ? ` ${a.amount}` : ''}
+            <span style={{ fontSize: 11, color: '#aaa', marginLeft: 6 }}>
+              [{a.street}]
+            </span>
+          </div>
+        )
+      })}
     </div>
   )
 }

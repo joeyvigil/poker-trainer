@@ -33,53 +33,143 @@ body {
   font-size: 14px;
 }
 
-.table {
-  background: radial-gradient(ellipse at center, #1b6b3a 0%, #14532d 60%, #0d3b1e 100%);
-  border-radius: 120px;
-  padding: 30px 40px;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), inset 0 0 60px rgba(0, 0, 0, 0.3);
-  min-height: 380px;
+.setup-bar {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border: 3px solid #8b7355;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
 }
 
-.player-area {
+.setup-label {
+  color: #8899aa;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.player-select {
+  display: flex;
+  gap: 4px;
+}
+
+.player-opt {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid #334;
+  background: #1a1a2e;
+  color: #8899aa;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.player-opt.active {
+  background: #27ae60;
+  color: #fff;
+  border-color: #27ae60;
+}
+
+.opponents-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.player-box {
+  background: radial-gradient(ellipse at center, #1b6b3a 0%, #14532d 60%, #0d3b1e 100%);
+  border-radius: 12px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  min-width: 100px;
+  border: 2px solid #8b7355;
 }
 
-.player-label {
-  font-size: 12px;
+.player-box.hero {
+  border-color: #27ae60;
+  margin: 12px auto 0;
+  max-width: 300px;
+}
+
+.player-box-label {
+  font-size: 11px;
   font-weight: 700;
   color: #d4c9a8;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dealer-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #f1c40f;
+  color: #1a1a2e;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.status-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.status-badge.folded {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.status-badge.allin {
+  background: #9b59b6;
+  color: #fff;
+}
+
+.hand-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #f1c40f;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+  white-space: nowrap;
 }
 
 .stack {
-  font-size: 12px;
+  font-size: 11px;
   color: #a8c9a8;
   font-weight: 600;
 }
 
 .card-row {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   align-items: center;
   justify-content: center;
 }
 
 .board-area {
+  background: radial-gradient(ellipse at center, #1b6b3a 0%, #14532d 60%, #0d3b1e 100%);
+  border-radius: 60px;
+  padding: 20px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  border: 2px solid #8b7355;
 }
 
 .community-cards {
@@ -123,6 +213,69 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.turn-hint {
+  text-align: center;
+  color: #27ae60;
+  font-size: 13px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.thinking-bar {
+  text-align: center;
+  color: #f1c40f;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  animation: pulse 0.8s ease-in-out infinite;
+}
+
+.player-box.thinking {
+  border-color: #f1c40f;
+  box-shadow: 0 0 12px rgba(241, 196, 15, 0.4);
+}
+
+.thinking-dots {
+  font-size: 10px;
+  color: #f1c40f;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.thinking-dots span {
+  animation: dotPulse 1.4s infinite;
+  opacity: 0;
+}
+
+.thinking-dots span:nth-child(1) { animation-delay: 0s; }
+.thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+.thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotPulse {
+  0%, 60%, 100% { opacity: 0; }
+  30% { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.btn-new {
+  background: #2980b9;
+  color: #fff;
+  font-size: 13px;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-new:hover {
+  background: #2471a3;
 }
 
 .btn {
