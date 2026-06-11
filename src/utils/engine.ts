@@ -32,7 +32,7 @@ export function dealNewHand(prevHeroStack?: number, prevOpponentStack?: number):
     heroCards,
     opponentCards,
     communityCards: [],
-    pot: BIG_BLIND,
+    pot: BIG_BLIND + SMALL_BLIND,
     heroStack: Math.max(0, heroAfterBlind),
     opponentStack: Math.max(0, oppAfterBlind),
     currentBet: BIG_BLIND,
@@ -294,9 +294,21 @@ function showdown(state: GameState): GameState {
   return finalizeFeedback(next)
 }
 
+function awardPot(s: GameState): GameState {
+  if (!s.result) return s
+  const pot = s.pot
+  if (s.result.winner === 'hero') {
+    return { ...s, heroStack: s.heroStack + pot }
+  }
+  if (s.result.winner === 'opponent') {
+    return { ...s, opponentStack: s.opponentStack + pot }
+  }
+  return { ...s, heroStack: s.heroStack + Math.floor(pot / 2), opponentStack: s.opponentStack + Math.floor(pot / 2) }
+}
+
 function finalizeFeedback(state: GameState): GameState {
   const feedback = generateFeedback(state)
-  return { ...state, feedback }
+  return awardPot({ ...state, feedback })
 }
 
 function getHandName(cards: Card[], board: Card[]): string {
