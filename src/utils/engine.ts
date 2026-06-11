@@ -13,13 +13,18 @@ function shuffle(arr: Card[]): void {
   }
 }
 
-export function dealNewHand(): GameState {
+export function dealNewHand(prevHeroStack?: number, prevOpponentStack?: number): GameState {
   const deck = createDeck()
   shuffle(deck)
   let idx = 0
 
   const heroCards: [Card, Card] = [deck[idx++], deck[idx++]]
   const opponentCards: [Card, Card] = [deck[idx++], deck[idx++]]
+
+  const heroStarting = prevHeroStack ?? 10000
+  const oppStarting = prevOpponentStack ?? 10000
+  const heroAfterBlind = heroStarting - BIG_BLIND
+  const oppAfterBlind = oppStarting - SMALL_BLIND
 
   return {
     phase: 'hero-turn',
@@ -28,8 +33,8 @@ export function dealNewHand(): GameState {
     opponentCards,
     communityCards: [],
     pot: BIG_BLIND,
-    heroStack: 10000 - BIG_BLIND,
-    opponentStack: 10000 - SMALL_BLIND,
+    heroStack: Math.max(0, heroAfterBlind),
+    opponentStack: Math.max(0, oppAfterBlind),
     currentBet: BIG_BLIND,
     heroBetThisStreet: BIG_BLIND,
     opponentBetThisStreet: SMALL_BLIND,

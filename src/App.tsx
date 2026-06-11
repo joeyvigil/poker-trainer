@@ -14,7 +14,7 @@ export default function App() {
   const [dealt, setDealt] = useState(false)
 
   function handleDeal() {
-    setGame(dealNewHand())
+    setGame(dealNewHand(game.heroStack, game.opponentStack))
     setShowOpponent(false)
     setDealt(true)
   }
