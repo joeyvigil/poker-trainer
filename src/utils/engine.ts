@@ -68,19 +68,11 @@ function getHandCategory(score: number): string {
 
 function opponentDecision(state: GameState): PlayerAction {
   const allCards = [...state.opponentCards, ...state.communityCards]
-  const fullBoard = [...state.communityCards]
 
   let strength: number
   if (allCards.length < 5) {
-    const heroScore = handStrength([...state.heroCards, ...fullBoard])
-    const oppScore = handStrength([...state.opponentCards, ...fullBoard])
-
     const preflopRank = rankPreflopHand(state.opponentCards)
-    const preflopStr = preflopStrength(preflopRank)
-
-    const remaining = 52 - state.deadCards.length - state.deckIdx
-    const winChance = remaining > 0 ? 0.5 + (oppScore - heroScore) / 2e9 : 0.5
-    strength = Math.max(0.1, Math.min(0.9, preflopStr * 0.6 + winChance * 0.4))
+    strength = preflopStrength(preflopRank)
   } else {
     const oppScore = handStrength([...state.opponentCards, ...state.communityCards])
     const cat = getHandCategory(oppScore)
@@ -206,8 +198,10 @@ export function heroActs(state: GameState, action: Action, amount?: number): Gam
     return executeOpponentTurn(next)
   }
 
-  if (action === 'raise') {
-    const raiseAmt = Math.min(amount ?? state.pot, state.heroStack)
+  if (action === 'raise' || action === 'all-in') {
+    const raiseAmt = action === 'all-in'
+      ? state.heroStack
+      : Math.min(amount ?? state.pot, state.heroStack)
     if (raiseAmt <= 0) return next
 
     const totalBet = state.heroBetThisStreet + raiseAmt

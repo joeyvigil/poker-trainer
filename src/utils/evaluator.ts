@@ -20,6 +20,11 @@ export interface HandResult {
 
 export function evaluateHand(cards: Card[]): HandResult {
   if (cards.length === 5) return evaluateFive(cards)
+  if (cards.length < 5) {
+    const values = cards.map(c => rankValue(c.rank)).sort((a, b) => b - a)
+    const score = values.reduce((s, v) => s * 15 + v, 0)
+    return { rank: 'high-card', score, name: 'High Card' }
+  }
   let best: HandResult | null = null
   for (const combo of combinations(cards, 5)) {
     const result = evaluateFive(combo)
